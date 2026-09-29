@@ -1,6 +1,6 @@
 PODS:
   - boost (1.84.0)
-  - BridSDK (1.6.3):
+  - BridSDK (1.6.6):
     - GoogleAds-IMA-iOS-SDK
   - BridSDKDynamicPrebidMobile (1.0.0)
   - BridSDKDynamicProtobuf (1.0.0)
@@ -10,7 +10,7 @@ PODS:
   - fmt (11.0.2)
   - glog (0.3.5)
   - google-cast-sdk (4.8.4)
-  - GoogleAds-IMA-iOS-SDK (3.32.0)
+  - GoogleAds-IMA-iOS-SDK (3.33.0)
   - hermes-engine (0.79.1):
     - hermes-engine/Pre-built (= 0.79.1)
   - hermes-engine/Pre-built (0.79.1)
@@ -1338,8 +1338,8 @@ PODS:
     - React-jsiexecutor
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
-  - react-native-bridtv-sdk-module (1.4.8):
-    - BridSDK
+  - react-native-bridtv-sdk-module (1.5.1):
+    - BridSDK (= 1.6.6)
     - BridSDKDynamicPrebidMobile
     - BridSDKDynamicProtobuf
     - google-cast-sdk
@@ -1900,7 +1900,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
-  BridSDK: a63d6d1660b927579f977196487d6f415f3dceb1
+  BridSDK: e1ca45d5708569eef6c7e9721d07e5e940f4ba73
   BridSDKDynamicPrebidMobile: 46bff8dd36ea6de30c39cdbf71d7eb97fef9828c
   BridSDKDynamicProtobuf: aaa75ff2fb2859c07e55566e1618d2bf4987ad52
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
@@ -1909,7 +1909,7 @@ SPEC CHECKSUMS:
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
   glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
   google-cast-sdk: 32f65af50d164e3c475e79ad123db3cc26fbcd37
-  GoogleAds-IMA-iOS-SDK: b1b1e3b8f486cfb7c7a669a58a5380421f3bcaab
+  GoogleAds-IMA-iOS-SDK: 3ded22b764c34813ede69005fefd270afc3576ee
   hermes-engine: c32f2e405098bc1ebe30630a051ddce6f21d3c2e
   RCT-Folly: e78785aa9ba2ed998ea4151e314036f6c49e6d82
   RCTDeprecation: 0ada4fb1e5c5637bff940dc40b94e2d3bf96b0ab
@@ -1942,7 +1942,7 @@ SPEC CHECKSUMS:
   React-logger: cc55ca6e50aeb31216c0a9dec30871cac776ef9a
   React-Mapbuffer: 3dec40b2c7bc9b2a0e89079adecec8553623b28a
   React-microtasksnativemodule: 5b347f4a4b6e2451a55301ed935bcc5261ba87cf
-  react-native-bridtv-sdk-module: a089a77c5662b4d6af05dee485953c48685a57bb
+  react-native-bridtv-sdk-module: efe541ac285ee9427ba057b6fcc4fdffc9a2e98b
   React-NativeModulesApple: e8e6b7992257fe68f77d5ce39f34384cd6226edf
   React-oscompat: 74eb4badd12e93899f37a5dbb03d8a638011a292
   React-perflogger: dba4ffef10c54537fa33cb2580cf6d4c48458d36

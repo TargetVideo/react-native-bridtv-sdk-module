@@ -14,6 +14,8 @@ IOS
 
 After NPM, cd to IOS and run  pod install
 
+If pod install reports that CocoaPods could not find compatible versions for pod "BridSDK" (e.g. after updating this package), run  pod update BridSDK  in the ios folder.
+
 Android 
 
 To update dependencies and fetch the latest packages open Android Studio and run Gradle Sync. By performing the Gradle sync, you ensure that your Android project is up to date with the latest packages and dependencies, which can help resolve compatibility issues and provide access to new features and bug fixes.

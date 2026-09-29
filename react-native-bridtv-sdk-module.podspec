@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm}"
 
   s.dependency "React-Core"
-  s.dependency 'BridSDK', '1.6.3'
+  s.dependency 'BridSDK', '1.6.6'
   s.dependency 'google-cast-sdk'
   s.dependency 'BridSDKDynamicPrebidMobile'
   s.dependency 'BridSDKDynamicProtobuf'
