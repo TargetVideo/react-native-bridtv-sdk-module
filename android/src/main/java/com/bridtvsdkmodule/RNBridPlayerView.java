@@ -13,6 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleEventObserver;
+import androidx.lifecycle.ProcessLifecycleOwner;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.bridge.Arguments;
@@ -52,6 +55,7 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
     super(getNonBuggyContext(context, reactApplicationContext));
     mThemedReactContext = context;
     reactApplicationContext.addLifecycleEventListener(this);
+    ProcessLifecycleOwner.get().getLifecycle().addObserver(appLifecycleObserver);
     init(context.getReactApplicationContext().getCurrentActivity());
   }
 
@@ -285,13 +289,23 @@ class RNBridPlayerView extends FrameLayout implements LifecycleEventListener, Br
   @Override
   public void onHostPause() {
     Log.d("Lifecycle react", "onHostPause");
+    if (bridPlayer != null && bridPlayer.isFullscreen()) return;
     pause();
   }
 
   @Override
   public void onHostDestroy() {
     Log.d("Lifecycle react", "onHostDestroy");
+    removeAppLifecycleObserver();
     destroyPlayer();
+  }
+
+  private final LifecycleEventObserver appLifecycleObserver = (owner, event) -> {
+    if (event == Lifecycle.Event.ON_STOP) pause();
+  };
+
+  public void removeAppLifecycleObserver() {
+    ProcessLifecycleOwner.get().getLifecycle().removeObserver(appLifecycleObserver);
   }
 
   @Override

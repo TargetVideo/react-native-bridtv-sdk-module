@@ -1,6 +1,6 @@
 PODS:
   - boost (1.84.0)
-  - BridSDK (1.6.6):
+  - BridSDK (1.6.7):
     - GoogleAds-IMA-iOS-SDK
   - BridSDKDynamicPrebidMobile (1.0.0)
   - BridSDKDynamicProtobuf (1.0.0)
@@ -1339,7 +1339,7 @@ PODS:
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
   - react-native-bridtv-sdk-module (1.5.1):
-    - BridSDK (= 1.6.6)
+    - BridSDK (= 1.6.7)
     - BridSDKDynamicPrebidMobile
     - BridSDKDynamicProtobuf
     - google-cast-sdk
@@ -1900,7 +1900,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
-  BridSDK: e1ca45d5708569eef6c7e9721d07e5e940f4ba73
+  BridSDK: 3c0ace8565fa37211289ed258cdd5c02b14b2fba
   BridSDKDynamicPrebidMobile: 46bff8dd36ea6de30c39cdbf71d7eb97fef9828c
   BridSDKDynamicProtobuf: aaa75ff2fb2859c07e55566e1618d2bf4987ad52
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
@@ -1942,7 +1942,7 @@ SPEC CHECKSUMS:
   React-logger: cc55ca6e50aeb31216c0a9dec30871cac776ef9a
   React-Mapbuffer: 3dec40b2c7bc9b2a0e89079adecec8553623b28a
   React-microtasksnativemodule: 5b347f4a4b6e2451a55301ed935bcc5261ba87cf
-  react-native-bridtv-sdk-module: efe541ac285ee9427ba057b6fcc4fdffc9a2e98b
+  react-native-bridtv-sdk-module: 5073f81bd8dbb382c68428da859b1de9571821cc
   React-NativeModulesApple: e8e6b7992257fe68f77d5ce39f34384cd6226edf
   React-oscompat: 74eb4badd12e93899f37a5dbb03d8a638011a292
   React-perflogger: dba4ffef10c54537fa33cb2580cf6d4c48458d36

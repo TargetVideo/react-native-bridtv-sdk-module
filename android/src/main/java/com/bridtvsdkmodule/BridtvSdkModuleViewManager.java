@@ -103,6 +103,7 @@ public class BridtvSdkModuleViewManager extends SimpleViewManager<RNBridPlayerVi
   }
   @Override
   public void onDropViewInstance(@Nonnull RNBridPlayerView view) {
+    view.removeAppLifecycleObserver();
     view.destroyPlayer();
     super.onDropViewInstance(view);
     view = null;
