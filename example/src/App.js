@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
   },
   square: {
     width: 320,
-    aspectRatio: 4 / 3,
+    aspectRatio: 16 / 9,
   },
   buttonContainer: {
     borderRadius: 10,

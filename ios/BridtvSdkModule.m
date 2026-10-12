@@ -50,7 +50,7 @@ RCT_EXPORT_MODULE(BridtvSdkModule);
 }
 
 - (void)playerEventReceived:(NSNotification *)notification {
-  if (!hasListeners) return;
+  if (!hasListeners || !self.callableJSModules) return;
 
   if ([notification.name isEqualToString:@"BridPlayer"]) {
     id eventValue = notification.userInfo[@"event"];
