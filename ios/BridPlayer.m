@@ -15,6 +15,12 @@
 #endif
 
 
+@interface BridPlayer () {
+  BOOL isRelodaed;
+  TypePlayer loadedType;
+}
+@end
+
 @implementation BridPlayer : UIView
 
 @synthesize bridPlayerConfig;
@@ -32,15 +38,20 @@
 @synthesize setSeekPreview;
 @synthesize setSubtitleBottomOffset;
 
-BOOL isRelodaed;
-TypePlayer loadedType;
 NSDictionary *reference;
 int playerID;
 int mediaID;
 
--(void)layoutSubviews
+- (void)setBridPlayerConfig:(NSDictionary *)config
 {
-  [super layoutSubviews];
+  bridPlayerConfig = config;
+  [self readConfig];
+  if (!_player)
+    [self setNeedsLayout];
+}
+
+- (void)readConfig
+{
   [self setPlayerTypeByString:[bridPlayerConfig objectForKey:@"typeOfPlayer"]];
   useVPAIDSupport = [[bridPlayerConfig objectForKey:@"useVPAIDSupport"] boolValue];
   controlAutoplay = [[bridPlayerConfig objectForKey:@"controlAutoplay"] boolValue];
@@ -53,7 +64,12 @@ int mediaID;
   setSeekSeconds = [bridPlayerConfig objectForKey:@"setSeekSeconds"];
   setSeekPreview = [bridPlayerConfig objectForKey:@"setSeekPreview"];
   setSubtitleBottomOffset = [bridPlayerConfig objectForKey:@"setCcBottomOffset"];
-  
+}
+
+-(void)layoutSubviews
+{
+  [super layoutSubviews];
+  [self readConfig];
 
 // MARK: - Removed because UM NO VIDEO ERROR
 //  if ([playerID isKindOfClass:[NSNull class]])
@@ -63,10 +79,11 @@ int mediaID;
 //    mediaID = 0;
   
   [self setupEventNetworking];
-  [self addSubview:self.player.view];
-  
-  self.player.view.frame = self.bounds;
-  
+  BVPlayer *player = self.player;
+  if (player) {
+    [self addSubview:player.view];
+    player.view.frame = self.bounds;
+  }
 }
 
 - (void)destroy
@@ -104,6 +121,8 @@ int mediaID;
 
 - (BVPlayer *)player {
   if (!_player) {
+    if (![playerID respondsToSelector:@selector(intValue)] || ![mediaID respondsToSelector:@selector(intValue)])
+      return nil;
     switch (type) {
       case SinglePlayer:
         _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:[playerID intValue] forVideoID:[mediaID intValue]]];

@@ -25,7 +25,7 @@ typedef NS_ENUM(NSUInteger, TypePlayer) {
 @property(nonatomic) BOOL controlAutoplay;
 @property(nonatomic) BOOL scrollOnAd;
 @property(nonatomic) NSNumber *_Nonnull setCornerRadius;
-@property(nonatomic, strong) BVPlayer *_Nonnull player;
+@property(nonatomic, strong) BVPlayer *_Nullable player;
 @property(nonatomic) NSString *_Nonnull localization;
 @property(nonatomic) NSNumber *_Nonnull setSeekSeconds;
 @property(nonatomic) NSNumber *_Nonnull setSeekPreview;

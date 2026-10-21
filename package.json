@@ -1,5 +1,5 @@
 {
-  "version": "1.5.3",
+  "version": "1.5.4",
   "name": "react-native-bridtv-sdk-module",
   "description": "React native module for Android/IOS BridTV SDK",
   "main": "src/index.tsx",
@@ -55,13 +55,13 @@
     "bridTv",
     "bridSDK"
   ],
-  "repository": "https://github.com/PredragJ/react-native-bridtv-sdk-module",
+  "repository": "https://github.com/TargetVideo/react-native-bridtv-sdk-module",
   "author": "BridTV <predrag.jevtic@brid.tv> (https://github.com/PredragJ)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/PredragJ/react-native-bridtv-sdk-module/issues"
+    "url": "https://github.com/TargetVideo/react-native-bridtv-sdk-module/issues"
   },
-  "homepage": "https://github.com/PredragJ/react-native-bridtv-sdk-module#readme",
+  "homepage": "https://github.com/TargetVideo/react-native-bridtv-sdk-module#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

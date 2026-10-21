@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.authors      = package["author"]
 
   s.platforms    = { :ios => "15.1" }
-  s.source       = { :git => "https://github.com/PredragJ/react-native-bridtv-sdk-module.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/TargetVideo/react-native-bridtv-sdk-module.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,mm}"
 
