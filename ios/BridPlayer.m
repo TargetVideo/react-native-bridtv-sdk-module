@@ -16,8 +16,7 @@
 
 
 @interface BridPlayer () {
-  BOOL isRelodaed;
-  TypePlayer loadedType;
+  BOOL isPlayerReleased;
 }
 @end
 
@@ -86,21 +85,33 @@ int mediaID;
   }
 }
 
-- (void)destroy
+- (void)releasePlayer
 {
+  if (!_player || isPlayerReleased)
+    return;
+  isPlayerReleased = YES;
+
+  if ([_player isFullscreen])
+    [_player setFullscreenOFF];
   [_player pause];
   [_player.view removeFromSuperview];
   [_player destroy];
-  
+}
+
+- (void)destroy
+{
+  [self releasePlayer];
+
   reference = nil;
   [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
 }
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self releasePlayer];
     [_player setPlayerReferenceName:nil];
     reference = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"referenceReactTag" object:@{@"reactTag": [self.reactTag stringValue]}];
 }
 
 
@@ -123,33 +134,41 @@ int mediaID;
   if (!_player) {
     if (![playerID respondsToSelector:@selector(intValue)] || ![mediaID respondsToSelector:@selector(intValue)])
       return nil;
-    switch (type) {
-      case SinglePlayer:
-        _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:[playerID intValue] forVideoID:[mediaID intValue]]];
-        break;
-      case PlaylistPlayer:
-        _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:[playerID intValue] forPlaylistID:[mediaID intValue]]];
-        break;
-      default:
-        break;
-    }
+    [self createPlayerOfType:type];
   } else {
-    if (isRelodaed) {
-      switch (loadedType) {
-        case SinglePlayer:
-          _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forVideoID:(int)[mediaID integerValue]]];
-          isRelodaed = NO;
-          break;
-        case PlaylistPlayer:
-          _player = [[BVPlayer alloc] initWithDataForRN:[[BVData alloc] initPlayerID:(int)[playerID integerValue] forPlaylistID:(int)[mediaID integerValue]]];
-          isRelodaed = NO;
-          break;
-        default:
-          break;
-      }
-    }
+    [self applyPlayerProperties];
   }
-  
+
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
+
+  return _player;
+}
+
+- (void)createPlayerOfType:(TypePlayer)playerType
+{
+  BVData *data;
+  switch (playerType) {
+    case SinglePlayer:
+      data = [[BVData alloc] initPlayerID:[playerID intValue] forVideoID:[mediaID intValue]];
+      break;
+    case PlaylistPlayer:
+      data = [[BVData alloc] initPlayerID:[playerID intValue] forPlaylistID:[mediaID intValue]];
+      break;
+    default:
+      return;
+  }
+
+  [self releasePlayer];
+  _player = [[BVPlayer alloc] initWithDataForRN:data];
+  isPlayerReleased = NO;
+
+  [self addSubview:_player.view];
+  _player.view.frame = self.bounds;
+  [self applyPlayerProperties];
+}
+
+- (void)applyPlayerProperties
+{
   int radius = [setCornerRadius intValue];
   [_player useVPAIDSupport:useVPAIDSupport];
   [_player controlAutoplay:controlAutoplay];
@@ -160,28 +179,18 @@ int mediaID;
   [_player setSeekSeconds:[setSeekSeconds intValue]];
   [_player setSeekPreviewEnabled:[setSeekPreview intValue]];
   [_player setSubtitleBottomOffset:[setSubtitleBottomOffset intValue]];
-  
-  [[NSNotificationCenter defaultCenter] postNotificationName:@"referenceReactTag" object:nil userInfo:@{@"reactTag": [self.reactTag stringValue]}];
-
-  return _player;
 }
 
 - (void)loadVideo:(NSNumber *)playerID mediaID:(NSNumber *)mediaID {
   self->playerID = playerID;
   self->mediaID = mediaID;
-  loadedType = SinglePlayer;
-  isRelodaed = YES;
-  [self setNeedsLayout];
-  
-
+  [self createPlayerOfType:SinglePlayer];
 }
 
 - (void)loadPlaylist:(NSNumber *)playerID mediaID:(NSNumber *)mediaID {
   self->playerID = playerID;
   self->mediaID = mediaID;
-  loadedType = PlaylistPlayer;
-  isRelodaed = YES;
-  [self setNeedsLayout];
+  [self createPlayerOfType:PlaylistPlayer];
 }
 
 // - (void)setupEventNetworking {
@@ -190,6 +199,8 @@ int mediaID;
 // }
 
 - (void)setupEventNetworking {
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PlayerEvent" object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:@"AdEvent" object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventWriter:) name:@"PlayerEvent" object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventWriter:) name:@"AdEvent" object:nil];
 }
@@ -224,6 +235,10 @@ int mediaID;
       event = [NSDictionary dictionaryWithObject:@"NEXT_VIDEO" forKey:@"event"];
     } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerAutoplay"]) {
       event = [NSDictionary dictionaryWithObject:@"VIDEO_AUTOPLAY" forKey:@"event"];
+    } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSetFullscreenOn"]) {
+      event = [NSDictionary dictionaryWithObject:@"FULLSCREEN_OPEN" forKey:@"event"];
+    } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerSetFullscreenOff"]) {
+      event = [NSDictionary dictionaryWithObject:@"FULLSCREEN_CLOSE" forKey:@"event"];
     } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerExpip"]) {
       event = [NSDictionary dictionaryWithObject:@"PLAYER_EXIT_PIP" forKey:@"event"];
     } else if ([(NSString *)notification.userInfo[@"event"] isEqualToString:@"playerEnpip"]) {
